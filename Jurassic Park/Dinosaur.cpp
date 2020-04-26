@@ -130,3 +130,20 @@ const char* Dinosaur::GetFood() const
 {
 	return food;
 }
+
+std::ostream& operator<<(std::ostream& out, const Dinosaur& dinosaur)
+{
+	return out << dinosaur.name << ' ' << dinosaur.sex << ' ' << dinosaur.era << ' ' << dinosaur.category << ' ' << dinosaur.species << ' ' << dinosaur.food;
+}
+
+std::istream& operator>>(std::istream& in, Dinosaur& dinosaur)
+{
+	
+	in.getline(dinosaur.name, 10000);
+	in >> dinosaur.sex;
+	in.getline(dinosaur.era, 10000);
+	in.getline(dinosaur.category, 10000);
+	in.getline(dinosaur.species, 10000);
+	in.getline(dinosaur.food, 10000);
+	return in;
+}

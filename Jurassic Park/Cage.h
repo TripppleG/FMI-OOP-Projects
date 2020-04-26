@@ -1,6 +1,9 @@
 #pragma once
-#include "Dinosaur.h"
 #include "Aquatic.h"
+#include "Carnivorous.h"
+#include "Flying.h"
+#include "Herbivores.h"
+
 class Cage
 {
 	Dinosaur* dinosaurs;
@@ -8,8 +11,9 @@ class Cage
 	char* climate;
 	char* eraOfDinosaurs;
 	int capacity;
-	int numberOfDinosaurs;
+	int dinosaursInCage;
 
+	void SetDinosaurs(const char* dinosaurCatergory);
 	void SetSize(const char* size);
 	void SetClimate(const char* climate);
 	void SetEraOfDinosaurs(const char* eraOfDinosaurs);
@@ -18,13 +22,13 @@ class Cage
 	void CopyFrom(const Cage& other);
 	void Free();
 public:
-	Cage(const char* size, const char* climate, const char* eraOfDinosaurs);
+	Cage(const char* size, const char* climate, const char* eraOfDinosaurs, const char* dinosaurCatergory);
 	Cage(const Cage& other);
 	Cage& operator=(const Cage other);
 	~Cage();
+	friend std::ostream& operator<<(std::ostream os, const Cage& cage);
+	friend std::istream& operator>>(std::istream is, Cage& cage);
 
-	void AddDinosaur();
-	void RemoveDinosaurs();
-	void IsEmpty();
-	void IsFull();
+	bool IsEmpty()const;
+	bool IsFull()const;
 };

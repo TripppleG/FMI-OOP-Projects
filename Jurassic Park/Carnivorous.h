@@ -7,6 +7,7 @@ private:
 	void SetCategory();
 	void SetFood();
 public:
+	Carnivorous() : Dinosaur() { SetCategory(); SetFood(); }
 	Carnivorous(const char* name, const char sex, const char* era, const char* species);
 	Carnivorous(const Carnivorous& other);
 	Carnivorous& operator=(const Carnivorous& other);

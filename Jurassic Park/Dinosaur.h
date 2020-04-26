@@ -19,13 +19,15 @@ protected:
 	char* era;
 	char* category;
 	char* species;
-	char* food;
+	char* food;//ID    |		Name		| Sex |	Era | Category | Species | Food
 public:
-	Dinosaur() {}
+	Dinosaur() { name = nullptr; sex = '\0'; era = nullptr; species = nullptr; }
 	Dinosaur(const char* name, const char sex, const char* era, const char* species);
 	Dinosaur(const Dinosaur& other);
 	Dinosaur& operator=(const Dinosaur& other);
 	~Dinosaur();
+	friend std::ostream& operator<<(std::ostream& out, const Dinosaur& dinosaur);
+	friend std::istream& operator>>(std::istream& in, Dinosaur& dinosaur);
 
 	const char* GetName() const;
 	const char GetSex() const;

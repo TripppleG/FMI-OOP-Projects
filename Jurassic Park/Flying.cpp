@@ -10,7 +10,7 @@ void Flying::SetCategory()
 void Flying::SetFood()
 {
 	this->food = new char[5];
-	srand(time(0));
+	srand((unsigned)time(NULL));
 	if (rand() % 5 < 4)
 	{
 		strcpy_s(this->food, 5, "Meat");
