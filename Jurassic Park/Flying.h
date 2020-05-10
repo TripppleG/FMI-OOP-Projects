@@ -3,13 +3,8 @@
 
 class Flying : public Dinosaur
 {
-private:
-	void SetCategory();
-	void SetFood();
 public:
-	Flying() : Dinosaur() { SetCategory(); SetFood(); }
-	Flying(const char* name, const char sex, const char* era, const char* species);
-	Flying(const Flying& other);
-	Flying& operator=(const Flying& other);
+	Flying() : Dinosaur() { category = Category::InvalidCategory; food = Food::InvalidFood; }
+	Flying(const char* name, const Sex sex, const Era era, const char* species);
 	Dinosaur* Clone() const;
 };

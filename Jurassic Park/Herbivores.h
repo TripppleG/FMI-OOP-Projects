@@ -3,13 +3,8 @@
 
 class Herbivores : public Dinosaur
 {
-private:
-	void SetCategory();
-	void SetFood();
 public:
-	Herbivores() : Dinosaur() { SetCategory(); SetFood(); }
-	Herbivores(const char* name, const char sex, const char* era, const char* species);
-	Herbivores(const Herbivores& other);
-	Herbivores& operator=(const Herbivores& other);
+	Herbivores() : Dinosaur() { category = Category::InvalidCategory; food = Food::InvalidFood; }
+	Herbivores(const char* name, const Sex sex, const Era era, const char* species);
 	Dinosaur* Clone() const;
 };

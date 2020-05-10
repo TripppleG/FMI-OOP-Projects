@@ -155,6 +155,7 @@
     <ClInclude Include="DinosaurPark.h" />
     <ClInclude Include="Flying.h" />
     <ClInclude Include="Herbivores.h" />
+    <ClInclude Include="Enums.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

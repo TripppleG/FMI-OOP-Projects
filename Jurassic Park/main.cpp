@@ -1,15 +1,18 @@
 #include "Cage.h"
 #include <fstream>
+#include <iostream>
+
+enum class Fruit
+{
+	apple = 1,
+	orange,
+	banana,
+	kiwi = -1
+};
 
 int main()
 {
-	Dinosaur* d = new Aquatic("Gosho", 'F', "Triassic", "Brontosaur");
-	Dinosaur* c = new Aquatic;
-
-	std::fstream file("ParkInfo.txt");
-	file >> *c;
-	std::cout << *c;
-	
-
+	//Dinosaur* d = new Flying("Gosho", Sex::Female, Era::Triassic, "Brontosaur");
+	std::cout << (int)Fruit::apple;
 	return 0;
 }	

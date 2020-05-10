@@ -1,69 +1,27 @@
 #include "Cage.h"
 
-void Cage::SetDinosaurs(const char* dinosaurCatergory)
+void Cage::SetSize(const Size size)
 {
-	if (!strcmp(dinosaurCatergory, "Flying") && !strcmp(climate, "Aerial"))
-	{
-		dinosaurs = new Flying[capacity];
-	}
-	else if (!strcmp(dinosaurCatergory, "Carnivorous") && !strcmp(climate, "Terrestrial"))
-	{
-		dinosaurs = new Carnivorous[capacity];
-	}
-	else if (!strcmp(dinosaurCatergory, "Herbivores") && !strcmp(climate, "Terrestrial"))
-	{
-		dinosaurs = new Herbivores[capacity];
-	}
-	else if(!strcmp(dinosaurCatergory, "Aquatic") && !strcmp(climate, "Aqueous"))
-	{
-		dinosaurs = new Aquatic[capacity];
-	}
-	else
-	{
-		throw std::invalid_argument("Category is invalid or it doesn't match with climate!");
-	}
+	this->size = size;
 }
 
-void Cage::SetSize(const char* size)
+void Cage::SetClimate(const Climate climate)
 {
-	if (strcmp(size, "Small") && strcmp(size, "Medium") && strcmp(size, "Large"))
-	{
-		throw std::invalid_argument("The size ot the cage must be Small, Medium or Large");
-	}
-	int length = strlen(size);
-	this->size = new char[length + 1];
-	strcpy_s(this->size, length, size);
+	this->climate = climate;
 }
 
-void Cage::SetClimate(const char* climate)
+void Cage::SetEraOfDinosaurs(const Era eraOfDinosaurs)
 {
-	if (strcmp(climate, "Terrestrial") && strcmp(climate, "Aerial") && strcmp(climate, "Aqueous"))
-	{
-		throw std::invalid_argument("The climate ot the cage must be Terrestrial, Aerial or Aqueous");
-	}
-	int length = strlen(climate);
-	this->climate = new char[length + 1];
-	strcpy_s(this->climate, length, climate);
-}
-
-void Cage::SetEraOfDinosaurs(const char* eraOfDinosaurs)
-{
-	if (strcmp(eraOfDinosaurs, "Triassic") && strcmp(eraOfDinosaurs, "Cretaceous") && strcmp(eraOfDinosaurs, "Jurassic"))
-	{
-		throw std::invalid_argument("Era must be Triassic, Cretaceous or Jurassic");
-	}
-	int length = strlen(eraOfDinosaurs);
-	this->eraOfDinosaurs = new char[length + 1];
-	strcpy_s(this->eraOfDinosaurs, length + 1, eraOfDinosaurs);
+	this->eraOfDinosaurs = eraOfDinosaurs;
 }
 
 void Cage::SetCapacity()
 {
-	if (!strcmp(size, "Small"))
+	if (size == Size::Small)
 	{
 		capacity = 1;
 	}
-	else if (!strcmp(size, "Medium"))
+	else if (size == Size::Medium)
 	{
 		capacity = 3;
 	}
@@ -75,35 +33,37 @@ void Cage::SetCapacity()
 
 void Cage::CopyFrom(const Cage& other)
 {
-	// TODO: FIX THIS METHOD
+
 	SetSize(other.size);
 	SetClimate(other.climate);
 	SetEraOfDinosaurs(other.eraOfDinosaurs);
 	SetCapacity();
-	dinosaursInCage = other.dinosaursInCage;
-	SetDinosaurs(other.dinosaurs[0].GetCategory());
-	for (int i = 0; i < other.dinosaursInCage; i++)
+	numberOfDinosaurs = other.numberOfDinosaurs;
+	dinosaurs = new Dinosaur*[other.capacity];
+	for (int i = 0; i < numberOfDinosaurs; i++)
 	{
-		dinosaurs[i] = other.dinosaurs[i];
+		dinosaurs[i] = other.dinosaurs[i]->Clone();
 	}
 }
 
 void Cage::Free()
 {
+	for (int i = 0; i < numberOfDinosaurs; i++)
+	{
+		delete dinosaurs[i];
+	}
 	delete[] dinosaurs;
-	delete[] size;
-	delete[] climate;
-	delete[] eraOfDinosaurs;
 }
 
-Cage::Cage(const char* size, const char* climate, const char* eraOfDinosaurs, const char* dinosaurCatergory)
+Cage::Cage(const Size size, const Climate climate, const Era eraOfDinosaurs)
 {
 	SetSize(size);
 	SetClimate(climate);
 	SetEraOfDinosaurs(eraOfDinosaurs);
 	SetCapacity();
-	SetDinosaurs(dinosaurCatergory);
-	dinosaursInCage = 0;
+	dinosaurs = new Dinosaur * [capacity];
+	numberOfDinosaurs = 0;
+
 }
 
 Cage::Cage(const Cage& other)
@@ -128,29 +88,41 @@ Cage::~Cage()
 
 bool Cage::IsEmpty()const
 {
-	return dinosaursInCage == 0;
+	return numberOfDinosaurs == 0;
 }
 
 bool Cage::IsFull()const
 {
-	return dinosaursInCage == capacity;
+	return numberOfDinosaurs == capacity;
+}
+
+const Size Cage::GetSize() const
+{
+	return size;
+}
+
+const Climate Cage::GetClimate() const
+{
+	return climate;
+}
+
+const Era Cage::GetEraOfDinosaurs() const
+{
+	return eraOfDinosaurs;
 }
 
 
-std::ostream& operator<<(std::ostream os, const Cage& cage)
+std::ostream& operator<<(std::ostream& os, const Cage& cage)
 {
-	for (int i = 0; i < cage.dinosaursInCage; i++)
+	for (int i = 0; i < cage.numberOfDinosaurs; i++)
 	{
 		os << cage.dinosaurs[i] << '\n';
 	}
 	return os;
 }
 
-std::istream& operator>>(std::istream is, Cage& cage)
+std::istream& operator>>(std::istream& is, Cage& cage)
 {
-	for (int i = 0; i < cage.dinosaursInCage; i++)
-	{
-		is >> cage.dinosaurs[i];
-	}
+	
 	return is;
 }

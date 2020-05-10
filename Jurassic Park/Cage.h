@@ -6,29 +6,33 @@
 
 class Cage
 {
-	Dinosaur* dinosaurs;
-	char* size;
-	char* climate;
-	char* eraOfDinosaurs;
+	Dinosaur** dinosaurs;
+	Size size;
+	Climate climate;
+	Era eraOfDinosaurs;
 	int capacity;
-	int dinosaursInCage;
+	int numberOfDinosaurs;
 
-	void SetDinosaurs(const char* dinosaurCatergory);
-	void SetSize(const char* size);
-	void SetClimate(const char* climate);
-	void SetEraOfDinosaurs(const char* eraOfDinosaurs);
+	void SetSize(const Size size);
+	void SetClimate(const Climate climate);
+	void SetEraOfDinosaurs(const Era eraOfDinosaurs);
 	void SetCapacity();
 
 	void CopyFrom(const Cage& other);
 	void Free();
 public:
-	Cage(const char* size, const char* climate, const char* eraOfDinosaurs, const char* dinosaurCatergory);
+	Cage() { dinosaurs = nullptr; size = Size::InvalidSize; climate = Climate::InvalidClimate; eraOfDinosaurs = Era::InvalidEra; capacity = 0; numberOfDinosaurs = 0; }
+	Cage(const Size size, const Climate climate, const Era eraOfDinosaurs);
 	Cage(const Cage& other);
 	Cage& operator=(const Cage other);
 	~Cage();
-	friend std::ostream& operator<<(std::ostream os, const Cage& cage);
-	friend std::istream& operator>>(std::istream is, Cage& cage);
+	friend std::ostream& operator<<(std::ostream& os, const Cage& cage);
+	friend std::istream& operator>>(std::istream& is, Cage& cage);
 
 	bool IsEmpty()const;
 	bool IsFull()const;
+
+	const Size GetSize()const;
+	const Climate GetClimate()const;
+	const Era GetEraOfDinosaurs()const;
 };

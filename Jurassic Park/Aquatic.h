@@ -3,13 +3,8 @@
 
 class Aquatic: public Dinosaur
 {
-private:
-	void SetCategory();
-	void SetFood();
 public:
-	Aquatic() : Dinosaur() { SetCategory(); SetFood(); }
-	Aquatic(const char* name, const char sex, const char* era, const char* species);
-	Aquatic(const Aquatic& other);
-	Aquatic& operator=(const Aquatic& other);
+	Aquatic() : Dinosaur() { category = Category::InvalidCategory; food = Food::InvalidFood; }
+	Aquatic(const char* name, const Sex sex, const Era era, const char* species);
 	Dinosaur* Clone()const;
 };
