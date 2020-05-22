@@ -1,22 +1,5 @@
 #include "DinosaurPark.h"
-
-void DinosaurPark::SetName(const char* parkName)
-{
-	int length = strlen(parkName);
-	if (length == 0)
-	{
-		throw std::invalid_argument("Name can't be empty");
-	}
-	for (int i = 0; i < length; i++)
-	{
-		if ((tolower(parkName[i]) < 'a' || tolower(parkName[i]) > 'z') && (parkName[i] < '0' || parkName[i] > '9'))
-		{
-			throw std::invalid_argument("Name can't contain non-letter/number characters!");
-		}
-	}
-	this->parkName = new char[length + 1];
-	strcpy_s(this->parkName, length + 1, parkName);
-}
+#include <iomanip>
 
 void DinosaurPark::Resize()
 {
@@ -32,11 +15,11 @@ void DinosaurPark::Resize()
 
 void DinosaurPark::CopyFrom(const DinosaurPark& other)
 {
-	SetName(other.parkName);
 	numberOfCages = other.numberOfCages;
 	maxNumberOfCages = other.maxNumberOfCages;
 	staffCount = other.staffCount;
-	food = other.food;
+	foodAvailable = other.foodAvailable;
+	foodRequired = other.foodRequired;
 	cages = new Cage[maxNumberOfCages];
 	for (unsigned i = 0; i < numberOfCages; i++)
 	{
@@ -47,17 +30,19 @@ void DinosaurPark::CopyFrom(const DinosaurPark& other)
 void DinosaurPark::Free()
 {
 	delete[]cages;
-	delete[]parkName;
 }
 
-DinosaurPark::DinosaurPark(const char* parkName)
+DinosaurPark::DinosaurPark()
 {
-	SetName(parkName);
 	numberOfCages = 3;
-	cages = new Cage[3];
+	cages = new Cage[numberOfCages];
+	cages[0] = Cage(Size::Medium, Climate::Aerial);
+	cages[1] = Cage(Size::Medium, Climate::Aqueous);
+	cages[2] = Cage(Size::Large, Climate::Terrestrial);
 	maxNumberOfCages = 4;
-	staffCount = 0;
-	food = 0;
+	staffCount = numberOfCages;
+	foodAvailable = FoodStorage(10, 10, 10);
+	foodRequired = FoodStorage(0, 0, 0);
 }
 
 DinosaurPark::DinosaurPark(const DinosaurPark& other)
@@ -80,26 +65,138 @@ DinosaurPark::~DinosaurPark()
 	Free();
 }
 
-void DinosaurPark::CreateCage(const Size size, const Climate climate, const Era eraOfDinosaurs)
+std::ostream& operator<<(std::ostream& os, const DinosaurPark& park)
+{
+	os << "Staff count: " << park.staffCount << std::endl;
+	os << "Number of cages: " << park.numberOfCages << std::endl;
+	os << "Food required to feed the dinosaurs:\n" << park.foodRequired << std::endl << std::endl;
+	os << "Food available:\n" << park.foodAvailable << std::endl << std::endl;
+	os << std::setfill('-') << std::setw(108) << "\n";
+	
+	for (unsigned i = 0; i < park.numberOfCages; i++)
+	{
+		os << "Cage " << i + 1 << ":" << std::endl;
+		os << park.cages[i];
+	}
+	return os;
+}
+
+std::istream& operator>>(std::istream& is, DinosaurPark& park)
+{
+	char* temp = new char[11];
+	is.ignore(13);
+	is.getline(temp, 11);
+	park.staffCount = atoi(temp);
+	is.ignore(17);
+
+	is.getline(temp, 11);
+	park.numberOfCages = atoi(temp);
+	is.ignore(37);
+
+	is >> park.foodRequired;
+	is.ignore(17);
+	
+	is >> park.foodAvailable;
+	is.ignore(110, '\n');
+
+	park.Free();
+	park.cages = new Cage[park.numberOfCages];
+	for (unsigned i = 0; i < park.numberOfCages; i++)
+	{
+		is.ignore(8);
+		is >> park.cages[i];
+	}
+	return is;
+}
+
+void DinosaurPark::CreateCage(const Size size, const Climate climate)
+{
+	const Cage temp(size, climate);
+	CreateCage(temp);
+}
+
+void DinosaurPark::CreateCage(const Cage& cage)
 {
 	if (numberOfCages == maxNumberOfCages)
 	{
 		Resize();
 	}
-	cages[numberOfCages] = Cage(size, climate, eraOfDinosaurs);
+	cages[numberOfCages] = cage;
 	numberOfCages++;
+	staffCount++;
 }
 
-void DinosaurPark::AddDinosaur(const char* name, const char sex, const char* era, const char* species)
+short DinosaurPark::AddDinosaur(const char* name, const Sex sex, const Era era, const char* species, const Category category)
 {
+	const Dinosaur temp(name, sex, era, species, category);
+	return AddDinosaur(temp);
 }
 
-void DinosaurPark::RemoveDinosaur(const char* name)
+short DinosaurPark::AddDinosaur(const Dinosaur& dinosaur)
 {
-
+	for (unsigned i = 0; i < numberOfCages; i++)
+	{
+		short result = cages[i].AddDinosaur(dinosaur);
+		if (result == -1)
+		{
+			return -1;
+		}
+		else if(result == 1)
+		{
+			if (dinosaur.GetFood() == Food::Fish)
+			{
+				foodRequired.fish++;
+			}
+			else if (dinosaur.GetFood() == Food::Grass)
+			{
+				foodRequired.grass++;
+			}
+			else
+			{
+				foodRequired.meat++;
+			}
+			return 1;
+		}
+	}
+	return 0;
 }
 
-void DinosaurPark::SaveToFile(const char* fileName)
+bool DinosaurPark::RemoveDinosaur(const char* name, const Sex sex, const Era era, const char* species, const Category category)
 {
+	const Dinosaur temp(name, sex, era, species, category);
+	return RemoveDinosaur(temp);
+}
 
+bool DinosaurPark::RemoveDinosaur(const Dinosaur& dinosaur)
+{
+	for (unsigned i = 0; i < numberOfCages; i++)
+	{
+		if (cages[i].RemoveDinosaur(dinosaur))
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+void DinosaurPark::RefillStorage()
+{
+	foodAvailable.fish = 4 * foodRequired.fish;
+	foodAvailable.grass = 4 * foodRequired.grass;
+	foodAvailable.meat = 4 * foodRequired.meat;
+}
+
+void DinosaurPark::FeedTheDinosaurs()
+{
+	foodAvailable -= foodRequired;
+}
+
+const FoodStorage DinosaurPark::GetFoodRequired() const
+{
+	return foodRequired;
+}
+
+const FoodStorage DinosaurPark::GetFoodAvailable() const
+{
+	return foodAvailable;
 }

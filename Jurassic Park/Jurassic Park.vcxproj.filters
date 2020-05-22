@@ -21,39 +21,21 @@
     <ClCompile Include="Dinosaur.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Flying.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Carnivorous.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Aquatic.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Herbivores.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Cage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DinosaurPark.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="JurassicParkUI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FoodStorage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DinosaurPark.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Carnivorous.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Herbivores.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Aquatic.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Flying.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Dinosaur.h">
@@ -63,6 +45,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Enums.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="JurassicParkUI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FoodStorage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -138,24 +138,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Aquatic.cpp" />
     <ClCompile Include="Cage.cpp" />
-    <ClCompile Include="Carnivorous.cpp" />
     <ClCompile Include="Dinosaur.cpp" />
     <ClCompile Include="DinosaurPark.cpp" />
-    <ClCompile Include="Flying.cpp" />
-    <ClCompile Include="Herbivores.cpp" />
+    <ClCompile Include="FoodStorage.cpp" />
+    <ClCompile Include="JurassicParkUI.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Aquatic.h" />
     <ClInclude Include="Cage.h" />
-    <ClInclude Include="Carnivorous.h" />
     <ClInclude Include="Dinosaur.h" />
     <ClInclude Include="DinosaurPark.h" />
-    <ClInclude Include="Flying.h" />
-    <ClInclude Include="Herbivores.h" />
     <ClInclude Include="Enums.h" />
+    <ClInclude Include="FoodStorage.h" />
+    <ClInclude Include="JurassicParkUI.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

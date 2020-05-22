@@ -1,4 +1,5 @@
 #include "Cage.h"
+#include <iomanip>
 
 void Cage::SetSize(const Size size)
 {
@@ -31,39 +32,59 @@ void Cage::SetCapacity()
 	}
 }
 
+bool Cage::IsDinosaurEligible(const Dinosaur& dinosaur)
+{
+	if ((climate == Climate::Aerial && dinosaur.GetCategory() == Category::Flying) ||
+		(climate == Climate::Aqueous && dinosaur.GetCategory() == Category::Aquatic) ||
+		(climate == Climate::Terrestrial && (dinosaur.GetCategory() == Category::Carnivorous || dinosaur.GetCategory() == Category::Herbivores)))
+	{
+		if (IsFull())
+		{
+			return false;
+		}
+		else if (IsEmpty())
+		{
+			eraOfDinosaurs = dinosaur.GetEra();
+			return true;
+		}
+		else
+		{
+			return eraOfDinosaurs == dinosaur.GetEra();
+		}
+	}
+	else
+	{
+		return false;
+	}
+}
+
 void Cage::CopyFrom(const Cage& other)
 {
-
 	SetSize(other.size);
 	SetClimate(other.climate);
 	SetEraOfDinosaurs(other.eraOfDinosaurs);
 	SetCapacity();
 	numberOfDinosaurs = other.numberOfDinosaurs;
-	dinosaurs = new Dinosaur*[other.capacity];
-	for (int i = 0; i < numberOfDinosaurs; i++)
+	dinosaurs = new Dinosaur[other.capacity];
+	for (unsigned i = 0; i < numberOfDinosaurs; i++)
 	{
-		dinosaurs[i] = other.dinosaurs[i]->Clone();
+		dinosaurs[i] = other.dinosaurs[i];
 	}
 }
 
 void Cage::Free()
 {
-	for (int i = 0; i < numberOfDinosaurs; i++)
-	{
-		delete dinosaurs[i];
-	}
 	delete[] dinosaurs;
 }
 
-Cage::Cage(const Size size, const Climate climate, const Era eraOfDinosaurs)
+Cage::Cage(const Size size, const Climate climate)
 {
 	SetSize(size);
 	SetClimate(climate);
-	SetEraOfDinosaurs(eraOfDinosaurs);
 	SetCapacity();
-	dinosaurs = new Dinosaur * [capacity];
+	dinosaurs = new Dinosaur[capacity];
 	numberOfDinosaurs = 0;
-
+	eraOfDinosaurs = Era::InvalidEra;
 }
 
 Cage::Cage(const Cage& other)
@@ -71,7 +92,7 @@ Cage::Cage(const Cage& other)
 	CopyFrom(other);
 }
 
-Cage& Cage::operator=(const Cage other)
+Cage& Cage::operator=(const Cage& other)
 {
 	if (this != &other)
 	{
@@ -111,18 +132,185 @@ const Era Cage::GetEraOfDinosaurs() const
 	return eraOfDinosaurs;
 }
 
+int Cage::AddDinosaur(const char* name, const Sex sex, const Era era, const char* species, const Category category)
+{
+	const Dinosaur temp(name, sex, era, species, category);
+	return AddDinosaur(temp);
+}
+
+int Cage::AddDinosaur(const Dinosaur& dinosaur)
+{
+	for (unsigned i = 0; i < numberOfDinosaurs; i++)
+	{
+		if (dinosaurs[i] == dinosaur)
+		{
+			return -1;
+		}
+	}
+	if (IsDinosaurEligible(dinosaur))
+	{
+		dinosaurs[numberOfDinosaurs++] = dinosaur;
+		return 1;
+	}
+	return 0;
+}
+
+bool Cage::RemoveDinosaur(const char* name, const Sex sex, const Era era, const char* species, const Category category)
+{
+	const Dinosaur temp(name, sex, era, species, category);
+	return RemoveDinosaur(temp);
+}
+
+bool Cage::RemoveDinosaur(const Dinosaur& dinosaur)
+{
+	for (unsigned i = 0; i < numberOfDinosaurs; i++)
+	{
+		if (dinosaurs[i] == dinosaur)
+		{
+			for (unsigned k = i; k < numberOfDinosaurs - 1; k++)
+			{
+				dinosaurs[k] = dinosaurs[k + 1];
+			}
+			numberOfDinosaurs--;
+			return true;
+		}
+	}
+	return false;
+}
+
 
 std::ostream& operator<<(std::ostream& os, const Cage& cage)
 {
-	for (int i = 0; i < cage.numberOfDinosaurs; i++)
+	os << std::setfill(' ');
+	os << std::left << "	" << "Size: ";
+	os << std::setw(7);
+	switch ((int)cage.size)
 	{
-		os << cage.dinosaurs[i] << '\n';
+	case 1:
+		os << "Small";
+		break;
+	case 2:
+		os << "Medium";
+		break;
+	case 3:
+		os << "Large";
 	}
+	os << "| Climate: " << std::setw(12);
+	switch ((int)cage.climate)
+	{
+	case 1:
+		os << "Terrestrial";
+		break;
+	case 2:
+		os << "Aerial";
+		break;
+	case 3:
+		os << "Aqueous";
+	}
+	os << "| Era: ";
+	switch ((int)cage.eraOfDinosaurs)
+	{
+	case 1:
+		os << "Triassic";
+		break;
+	case 2:
+		os << "Cretaceous";
+		break;
+	case 3:
+		os << "Jurassic";
+		break;
+	default: 
+		os << "NULL";
+	}
+	os << std::endl;
+	if (cage.IsEmpty())
+	{
+		os << "	Empty cage";
+	}
+	else
+	{
+		os << "	Dinosaurs in cage: " << cage.numberOfDinosaurs << std::endl;
+		os << "	" << std::left << std::setw(30) << "Name" << "| " << std::setw(7) << "Sex" << "| " << std::setw(11) << "Era" << "| " << std::setw(24) << "Species" << "| " << std::setw(11) << "Category" << "| " << "Food" << std::endl;
+		for (unsigned i = 0; i < cage.numberOfDinosaurs; i++)
+		{
+			os << cage.dinosaurs[i] << std::endl;
+		}
+	}
+	os << std::endl;
+	os << std::setw(107) << std::setfill('-') << "" << std::endl;
 	return os;
 }
 
 std::istream& operator>>(std::istream& is, Cage& cage)
 {
-	
+	char* temp = new char[30];
+	is.ignore(7);
+	is.getline(temp, 7, ' ');
+	if (!strcmp(temp, "Small"))
+	{
+		cage.SetSize(Size::Small);
+	}
+	else if (!strcmp(temp, "Medium"))
+	{
+		cage.SetSize(Size::Medium);
+	}
+	else
+	{
+		cage.SetSize(Size::Large);
+	}
+
+	is.ignore(10, '|');
+	is.ignore(10);
+	is.getline(temp, 12, ' ');
+	if (!strcmp(temp, "Aerial"))
+	{
+		cage.SetClimate(Climate::Aerial);
+	}
+	else if (!strcmp(temp, "Aqueous"))
+	{
+		cage.SetClimate(Climate::Aqueous);
+	}
+	else
+	{
+		cage.SetClimate(Climate::Terrestrial);
+	}
+
+	is.ignore(10, '|');
+	is.ignore(6);
+	is.getline(temp, 11);
+	if (!strcmp(temp, "Triassic"))
+	{
+		cage.SetEraOfDinosaurs(Era::Triassic);
+	}
+	else if (!strcmp(temp, "Jurassic"))
+	{
+		cage.SetEraOfDinosaurs(Era::Jurassic);
+	}
+	else if(!strcmp(temp, "Cretaceous"))
+	{
+		cage.SetEraOfDinosaurs(Era::Cretaceous);
+	}
+	else
+	{
+		cage.SetEraOfDinosaurs(Era::InvalidEra);
+	}
+
+	is.ignore();
+	is.getline(temp, 20, ':');
+	if (strcmp(temp, "Empty cage"))
+	{
+		is.getline(temp, 12);
+		is.ignore(110, '\n');
+		cage.numberOfDinosaurs = atoi(temp);
+		cage.Free();
+		cage.dinosaurs = new Dinosaur[cage.numberOfDinosaurs];
+		for (unsigned i = 0; i < cage.numberOfDinosaurs; i++)
+		{
+			is.ignore();
+			is >> cage.dinosaurs[i];
+		}
+	}
+	is.ignore(110, '\n');
+	delete[] temp;
 	return is;
 }

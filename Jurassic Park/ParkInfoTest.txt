@@ -1,0 +1,37 @@
+Staff count: 6
+Number of cages: 6
+Food required to feed the dinosaurs:
+Fish: 0
+Grass: 0
+Meat: 1
+
+Food available:
+Fish: 10
+Grass: 10
+Meat: 7
+
+-----------------------------------------------------------------------------------------------------------
+Cage 1:
+	Size: Large  | Climate: Terrestrial | Era: NULL
+	Empty cage
+-----------------------------------------------------------------------------------------------------------
+Cage 2:
+	Size: Large  | Climate: Terrestrial | Era: NULL
+	Empty cage
+-----------------------------------------------------------------------------------------------------------
+Cage 3:
+	Size: Large  | Climate: Terrestrial | Era: NULL
+	Empty cage
+-----------------------------------------------------------------------------------------------------------
+Cage 4:
+	Size: Large  | Climate: Terrestrial | Era: NULL
+	Empty cage
+-----------------------------------------------------------------------------------------------------------
+Cage 5:
+	Size: Large  | Climate: Terrestrial | Era: NULL
+	Empty cage
+-----------------------------------------------------------------------------------------------------------
+Cage 6:
+	Size: Large  | Climate: Terrestrial | Era: NULL
+	Empty cage
+-----------------------------------------------------------------------------------------------------------
