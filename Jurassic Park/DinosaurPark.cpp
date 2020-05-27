@@ -35,12 +35,12 @@ void DinosaurPark::Free()
 DinosaurPark::DinosaurPark()
 {
 	numberOfCages = 3;
+	maxNumberOfCages = 4;
+	staffCount = numberOfCages;
 	cages = new Cage[numberOfCages];
 	cages[0] = Cage(Size::Medium, Climate::Aerial);
 	cages[1] = Cage(Size::Medium, Climate::Aqueous);
 	cages[2] = Cage(Size::Large, Climate::Terrestrial);
-	maxNumberOfCages = 4;
-	staffCount = numberOfCages;
 	foodAvailable = FoodStorage(10, 10, 10);
 	foodRequired = FoodStorage(0, 0, 0);
 }
@@ -69,6 +69,7 @@ std::ostream& operator<<(std::ostream& os, const DinosaurPark& park)
 {
 	os << "Staff count: " << park.staffCount << std::endl;
 	os << "Number of cages: " << park.numberOfCages << std::endl;
+	os << "Park capacity for cages: " << park.maxNumberOfCages << std::endl;
 	os << "Food required to feed the dinosaurs:\n" << park.foodRequired << std::endl << std::endl;
 	os << "Food available:\n" << park.foodAvailable << std::endl << std::endl;
 	os << std::setfill('-') << std::setw(108) << "\n";
@@ -91,6 +92,10 @@ std::istream& operator>>(std::istream& is, DinosaurPark& park)
 
 	is.getline(temp, 11);
 	park.numberOfCages = atoi(temp);
+	is.ignore(25);
+
+	is.getline(temp, 11);
+	park.maxNumberOfCages = atoi(temp);
 	is.ignore(37);
 
 	is >> park.foodRequired;
@@ -99,8 +104,8 @@ std::istream& operator>>(std::istream& is, DinosaurPark& park)
 	is >> park.foodAvailable;
 	is.ignore(110, '\n');
 
-	park.Free();
-	park.cages = new Cage[park.numberOfCages];
+	delete[] park.cages;
+	park.cages = new Cage[park.maxNumberOfCages];
 	for (unsigned i = 0; i < park.numberOfCages; i++)
 	{
 		is.ignore(8);
@@ -181,14 +186,38 @@ bool DinosaurPark::RemoveDinosaur(const Dinosaur& dinosaur)
 
 void DinosaurPark::RefillStorage()
 {
-	foodAvailable.fish = 4 * foodRequired.fish;
-	foodAvailable.grass = 4 * foodRequired.grass;
-	foodAvailable.meat = 4 * foodRequired.meat;
+	if (foodRequired.fish != 0)
+	{
+		foodAvailable.fish = 4 * foodRequired.fish;
+	}
+	if (foodRequired.grass != 0)
+	{
+		foodAvailable.grass = 4 * foodRequired.grass;
+	}
+	if (foodRequired.meat != 0)
+	{
+		foodAvailable.meat = 4 * foodRequired.meat;
+	}
 }
 
 void DinosaurPark::FeedTheDinosaurs()
 {
 	foodAvailable -= foodRequired;
+}
+
+const unsigned DinosaurPark::GetNumberOfCages() const
+{
+	return numberOfCages;
+}
+
+const unsigned DinosaurPark::GetMaxNumberOfCages() const
+{
+	return maxNumberOfCages;
+}
+
+const unsigned DinosaurPark::GetStaffCount() const
+{
+	return staffCount;
 }
 
 const FoodStorage DinosaurPark::GetFoodRequired() const

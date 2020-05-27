@@ -4,6 +4,13 @@
 
 class Dinosaur
 {
+	char* name;
+	Sex sex;
+	Era era;
+	char* species;
+	Category category;
+	Food food;
+
 	void SetName(const char* name);
 	void SetSex(const Sex sex);
 	void SetEra(const Era era);
@@ -13,18 +20,11 @@ class Dinosaur
 
 	void CopyFrom(const Dinosaur& other);
 	void Free();
-
-	char* name;
-	Sex sex;
-	Era era;
-	char* species;
-	Category category;
-	Food food;
 public:
-	Dinosaur() { name = nullptr; sex = Sex::InvalidSex; era = Era::InvalidEra; species = nullptr; category = Category::InvalidCategory, food = Food::InvalidFood; }
+	Dinosaur();
 	Dinosaur(const char* name, const Sex sex, const Era era, const char* species, const Category category);
 	Dinosaur(const Dinosaur& other);
-	Dinosaur& operator=(const Dinosaur& other);
+	const Dinosaur& operator=(const Dinosaur& other);
 	~Dinosaur();
 	friend std::ostream& operator<<(std::ostream& os, const Dinosaur& dinosaur);
 	friend std::istream& operator>>(std::istream& is, Dinosaur& dinosaur);

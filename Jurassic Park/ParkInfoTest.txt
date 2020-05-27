@@ -1,14 +1,15 @@
-Staff count: 6
-Number of cages: 6
+Staff count: 10
+Number of cages: 10
+Park capacity for cages: 16
 Food required to feed the dinosaurs:
 Fish: 0
 Grass: 0
-Meat: 1
+Meat: 0
 
 Food available:
 Fish: 10
 Grass: 10
-Meat: 7
+Meat: 10
 
 -----------------------------------------------------------------------------------------------------------
 Cage 1:
@@ -32,6 +33,22 @@ Cage 5:
 	Empty cage
 -----------------------------------------------------------------------------------------------------------
 Cage 6:
+	Size: Large  | Climate: Terrestrial | Era: NULL
+	Empty cage
+-----------------------------------------------------------------------------------------------------------
+Cage 7:
+	Size: Large  | Climate: Terrestrial | Era: NULL
+	Empty cage
+-----------------------------------------------------------------------------------------------------------
+Cage 8:
+	Size: Large  | Climate: Terrestrial | Era: NULL
+	Empty cage
+-----------------------------------------------------------------------------------------------------------
+Cage 9:
+	Size: Large  | Climate: Terrestrial | Era: NULL
+	Empty cage
+-----------------------------------------------------------------------------------------------------------
+Cage 10:
 	Size: Large  | Climate: Terrestrial | Era: NULL
 	Empty cage
 -----------------------------------------------------------------------------------------------------------

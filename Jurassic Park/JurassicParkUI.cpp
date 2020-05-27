@@ -253,7 +253,7 @@ JurrasicPark::JurrasicPark()
 		}
 		case 4:
 			park.RefillStorage();
-			std::cout << "Food storage refilled successfully!\n";
+			std::cout << "Food storage refilled successfully!\n\n";
 			break;
 		case 5:
 			std::cout << "Bye!\n";

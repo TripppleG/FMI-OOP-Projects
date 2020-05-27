@@ -20,7 +20,7 @@ private:
 	void CopyFrom(const Cage& other);
 	void Free();
 public:
-	Cage() { dinosaurs = nullptr; size = Size::InvalidSize; climate = Climate::InvalidClimate; eraOfDinosaurs = Era::InvalidEra; capacity = 0; numberOfDinosaurs = 0; }
+	Cage();
 	Cage(const Size size, const Climate climate);
 	Cage(const Cage& other);
 	Cage& operator=(const Cage& other);
@@ -30,13 +30,16 @@ public:
 
 	bool IsEmpty()const;
 	bool IsFull()const;
-	const Size GetSize()const;
-	const Climate GetClimate()const;
-	const Era GetEraOfDinosaurs()const;
 
-	int AddDinosaur(const char* name, const Sex sex, const Era era, const char* species, const Category category);
-	int AddDinosaur(const Dinosaur& dinosaur);
+	short AddDinosaur(const char* name, const Sex sex, const Era era, const char* species, const Category category);
+	short AddDinosaur(const Dinosaur& dinosaur);
 
 	bool RemoveDinosaur(const char* name, const Sex sex, const Era era, const char* species, const Category category);
 	bool RemoveDinosaur(const Dinosaur& dinosaur);
+
+	const Size GetSize()const;
+	const Climate GetClimate()const;
+	const Era GetEraOfDinosaurs()const;
+	const unsigned GetCapacity()const;
+	const unsigned GetNumberOfDinosaurs()const;
 };

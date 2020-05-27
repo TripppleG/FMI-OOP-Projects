@@ -77,6 +77,11 @@ void Cage::Free()
 	delete[] dinosaurs;
 }
 
+Cage::Cage()
+{
+	dinosaurs = nullptr; size = Size::InvalidSize; climate = Climate::InvalidClimate; eraOfDinosaurs = Era::InvalidEra; capacity = 0; numberOfDinosaurs = 0; 
+}
+
 Cage::Cage(const Size size, const Climate climate)
 {
 	SetSize(size);
@@ -117,28 +122,14 @@ bool Cage::IsFull()const
 	return numberOfDinosaurs == capacity;
 }
 
-const Size Cage::GetSize() const
-{
-	return size;
-}
 
-const Climate Cage::GetClimate() const
-{
-	return climate;
-}
-
-const Era Cage::GetEraOfDinosaurs() const
-{
-	return eraOfDinosaurs;
-}
-
-int Cage::AddDinosaur(const char* name, const Sex sex, const Era era, const char* species, const Category category)
+short Cage::AddDinosaur(const char* name, const Sex sex, const Era era, const char* species, const Category category)
 {
 	const Dinosaur temp(name, sex, era, species, category);
 	return AddDinosaur(temp);
 }
 
-int Cage::AddDinosaur(const Dinosaur& dinosaur)
+short Cage::AddDinosaur(const Dinosaur& dinosaur)
 {
 	for (unsigned i = 0; i < numberOfDinosaurs; i++)
 	{
@@ -163,21 +154,28 @@ bool Cage::RemoveDinosaur(const char* name, const Sex sex, const Era era, const 
 
 bool Cage::RemoveDinosaur(const Dinosaur& dinosaur)
 {
+	if (IsEmpty())
+	{
+		return false;
+	}
 	for (unsigned i = 0; i < numberOfDinosaurs; i++)
 	{
 		if (dinosaurs[i] == dinosaur)
 		{
-			for (unsigned k = i; k < numberOfDinosaurs - 1; k++)
+			for (unsigned j = i; j < numberOfDinosaurs - 1; j++)
 			{
-				dinosaurs[k] = dinosaurs[k + 1];
+				dinosaurs[j] = dinosaurs[j + 1];
 			}
 			numberOfDinosaurs--;
+			if (IsEmpty())
+			{
+				*this = Cage(size, climate);
+			}
 			return true;
 		}
 	}
 	return false;
 }
-
 
 std::ostream& operator<<(std::ostream& os, const Cage& cage)
 {
@@ -258,6 +256,7 @@ std::istream& operator>>(std::istream& is, Cage& cage)
 	{
 		cage.SetSize(Size::Large);
 	}
+	cage.SetCapacity();
 
 	is.ignore(10, '|');
 	is.ignore(10);
@@ -297,20 +296,50 @@ std::istream& operator>>(std::istream& is, Cage& cage)
 
 	is.ignore();
 	is.getline(temp, 20, ':');
-	if (strcmp(temp, "Empty cage"))
+	delete[] cage.dinosaurs;
+	cage.dinosaurs = new Dinosaur[cage.capacity];
+	if (strcmp(temp, "Empty cage") != 0)
 	{
 		is.getline(temp, 12);
 		is.ignore(110, '\n');
 		cage.numberOfDinosaurs = atoi(temp);
-		cage.Free();
-		cage.dinosaurs = new Dinosaur[cage.numberOfDinosaurs];
 		for (unsigned i = 0; i < cage.numberOfDinosaurs; i++)
 		{
 			is.ignore();
 			is >> cage.dinosaurs[i];
 		}
 	}
+	else
+	{
+		cage.numberOfDinosaurs = 0;
+	}
+
 	is.ignore(110, '\n');
 	delete[] temp;
 	return is;
+}
+
+const Size Cage::GetSize() const
+{
+	return size;
+}
+
+const Climate Cage::GetClimate() const
+{
+	return climate;
+}
+
+const Era Cage::GetEraOfDinosaurs() const
+{
+	return eraOfDinosaurs;
+}
+
+const unsigned Cage::GetCapacity() const
+{
+	return capacity;
+}
+
+const unsigned Cage::GetNumberOfDinosaurs() const
+{
+	return numberOfDinosaurs;
 }

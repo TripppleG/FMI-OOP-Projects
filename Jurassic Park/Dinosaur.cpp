@@ -3,6 +3,10 @@
 
 void Dinosaur::SetName(const char* name)
 {
+	if (!name)
+	{
+		throw std::invalid_argument("Null pointer passed as argument!");
+	}
 	int length = strlen(name);
 	if (length == 0)
 	{
@@ -31,6 +35,10 @@ void Dinosaur::SetEra(const Era era)
 
 void Dinosaur::SetSpecies(const char* species)
 {
+	if (!species)
+	{
+		throw std::invalid_argument("Null pointer passed as argument!");
+	}
 	int length = strlen(species);
 	if (length == 0)
 	{
@@ -80,7 +88,6 @@ void Dinosaur::SetFood()
 	}
 }
 
-
 void Dinosaur::CopyFrom(const Dinosaur& other)
 {
 	SetName(other.name);
@@ -95,6 +102,11 @@ void Dinosaur::Free()
 {
 	delete[] name;
 	delete[] species;
+}
+
+Dinosaur::Dinosaur()
+{
+	name = nullptr; sex = Sex::InvalidSex; era = Era::InvalidEra; species = nullptr; category = Category::InvalidCategory, food = Food::InvalidFood;
 }
 
 Dinosaur::Dinosaur(const char* name, const Sex sex, const Era era, const char* species, const Category category)
@@ -112,7 +124,7 @@ Dinosaur::Dinosaur(const Dinosaur& other)
 	CopyFrom(other);
 }
 
-Dinosaur& Dinosaur::operator=(const Dinosaur& other)
+const Dinosaur& Dinosaur::operator=(const Dinosaur& other)
 {
 	if (this != &other)
 	{

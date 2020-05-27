@@ -1,7 +1,6 @@
 #pragma once
 #include "DinosaurPark.h"
 #include <fstream>
-#include "FoodStorage.h"
 
 const char FILE_NAME[] = "ParkInfoTest.txt";
 
