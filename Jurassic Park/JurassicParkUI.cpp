@@ -99,22 +99,6 @@ const Category JurrasicParkUI::EnterCategory() const
 	return category;
 }
 
-const Climate JurrasicParkUI::CategoryToClimate(const Category category) const
-{
-	if (category == Category::Aquatic)
-	{
-		return Climate::Aqueous;
-	}
-	else if (category == Category::Carnivorous || category == Category::Herbivores)
-	{
-		return Climate::Terrestrial;
-	}
-	else
-	{
-		return Climate::Aerial;
-	}
-}
-
 const Size JurrasicParkUI::EnterSize() const
 {
 	Size size;
@@ -150,6 +134,88 @@ const Climate JurrasicParkUI::EnterClimate() const
 	return climate;
 }
 
+const Climate JurrasicParkUI::CategoryToClimate(const Category category) const
+{
+	if (category == Category::Aquatic)
+	{
+		return Climate::Aqueous;
+	}
+	else if (category == Category::Carnivorous || category == Category::Herbivores)
+	{
+		return Climate::Terrestrial;
+	}
+	else
+	{
+		return Climate::Aerial;
+	}
+}
+
+const bool JurrasicParkUI::AreDinosaursHungry() const
+{
+	return park.GetFoodAvailable() < park.GetFoodRequired();
+}
+
+void JurrasicParkUI::AddDinosaur()
+{
+	const char* name = EnterName();
+	const Sex sex = EnterSex();
+	const Era era = EnterEra();
+	const char* species = EnterSpecies();
+	const Category category = EnterCategory();
+	const short result = park.AddDinosaur(name, sex, era, species, category);
+	if (result == -1)
+	{
+		std::cout << "Dinosaur already exists in the park!\n\n";
+	}
+	else if (result == 0)
+	{
+		std::cout << "There is no eligible empty space for the dinosaur. You must create a new cage for it to be added!\n\n";
+		Size size = EnterSize();
+		park.CreateCage(size, CategoryToClimate(category));
+		park.AddDinosaur(name, sex, era, species, category);
+	}
+	else
+	{
+		std::cout << "Dinosaur added successfully!\n\n";
+	}
+	delete[] name; // Deleting the memory allocated in EnterName()
+	delete[] species; // Deleting the memory allocated in EnterSpecies()
+}
+
+void JurrasicParkUI::RemoveDinosaur()
+{
+	const char* name = EnterName();
+	const Sex sex = EnterSex();
+	const Era era = EnterEra();
+	const char* species = EnterSpecies();
+	const Category category = EnterCategory();
+	const bool isSuccessful = park.RemoveDinosaur(name, sex, era, species, category);
+	if (isSuccessful)
+	{
+		std::cout << "Dinosaur removed successfully!\n\n";
+	}
+	else
+	{
+		std::cout << "There is no dinosaur with these specifications in the park!\n\n";
+	}
+	delete[] name; // Deleting the memory allocated in EnterName()
+	delete[] species; // Deleting the memory allocated in EnterSpecies()
+}
+
+void JurrasicParkUI::CreateCage()
+{
+	const Size size = EnterSize();
+	const Climate climate = EnterClimate();
+	park.CreateCage(size, climate);
+	std::cout << "Cage created successfully!\n\n";
+}
+
+void JurrasicParkUI::RefillTheStorage()
+{
+	park.RefillStorage();
+	std::cout << "Food storage refilled successfully!\n\n";
+}
+
 void JurrasicParkUI::LoadFromFile(const char* filename)
 {
 	std::ifstream myFile(filename, std::ios::in);
@@ -172,8 +238,6 @@ void JurrasicParkUI::SaveToFile(const char* filename) const
 	std::cout << "Changes saved successfully";
 }
 
-JurrasicParkUI::JurrasicParkUI() {}
-
 void JurrasicParkUI::Run()
 {
 	try
@@ -188,7 +252,7 @@ void JurrasicParkUI::Run()
 	short choice;
 	do
 	{
-		if (park.GetFoodAvailable() < park.GetFoodRequired())
+		if (AreDinosaursHungry())
 		{
 			std::cout << "DINOSAUR ARE STARVING! PLEASE REFILL THE FOOD STORAGE!\n";
 		}
@@ -200,62 +264,21 @@ void JurrasicParkUI::Run()
 		{
 		case 1:
 		{
-			const char* name = EnterName();
-			const Sex sex = EnterSex();
-			const Era era = EnterEra();
-			const char* species = EnterSpecies();
-			const Category category = EnterCategory();
-			const short result = park.AddDinosaur(name, sex, era, species, category);
-			if (result == -1)
-			{
-				std::cout << "Dinosaur already exists in the park!\n\n";
-			}
-			else if (result == 0)
-			{
-				std::cout << "There is no eligible empty space for the dinosaur. You must create a new cage for it to be added!\n\n";
-				Size size = EnterSize();
-				park.CreateCage(size, CategoryToClimate(category));
-				park.AddDinosaur(name, sex, era, species, category);
-			}
-			else
-			{
-				std::cout << "Dinosaur added successfully!\n\n";
-			}
-			delete[] name; // Deleting the memory allocated in EnterName()
-			delete[] species; // Deleting the memory allocated in EnterSpecies()
+			AddDinosaur();
 			break;
 		}
 		case 2:
 		{
-			const char* name = EnterName();
-			const Sex sex = EnterSex();
-			const Era era = EnterEra();
-			const char* species = EnterSpecies();
-			const Category category = EnterCategory();
-			const bool isSuccessful = park.RemoveDinosaur(name, sex, era, species, category);
-			if (isSuccessful)
-			{
-				std::cout << "Dinosaur removed successfully!\n\n";
-			}
-			else
-			{
-				std::cout << "There is no dinosaur with these specifications in the park!\n\n";
-			}
-			delete[] name; // Deleting the memory allocated in EnterName()
-			delete[] species; // Deleting the memory allocated in EnterSpecies()
+			RemoveDinosaur();
 			break;
 		}
 		case 3:
 		{
-			const Size size = EnterSize();
-			const Climate climate = EnterClimate();
-			park.CreateCage(size, climate);
-			std::cout << "Cage created successfully!\n\n";
+			CreateCage();
 			break;
 		}
 		case 4:
-			park.RefillStorage();
-			std::cout << "Food storage refilled successfully!\n\n";
+			RefillTheStorage();
 			break;
 		case 5:
 			std::cout << "Bye!\n";

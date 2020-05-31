@@ -693,9 +693,9 @@ TEST_CASE("Testing DinosaurPark class")
 			std::cout << "Adding the first dinosaur in the cage:\n";
 			int result = p.AddDinosaur("name", Sex::Male, Era::Triassic, "species", Category::Carnivorous);
 			bool isInSomeCage = false;
-			for (int i = 0; i < p.GetNumberOfCages(); i++)
+			for (unsigned i = 0; i < p.GetNumberOfCages(); i++)
 			{
-				for (int j = 0; j < p.GetCages()[i].GetNumberOfDinosaurs(); j++)
+				for (unsigned j = 0; j < p.GetCages()[i].GetNumberOfDinosaurs(); j++)
 				{
 					if (p.GetCages()[i].GetDinosaurs()[j] == Dinosaur("name", Sex::Male, Era::Triassic, "species", Category::Carnivorous))
 					{
@@ -715,10 +715,10 @@ TEST_CASE("Testing DinosaurPark class")
 			CHECK_EQ(result1, 1);
 			bool isInSomeCage = false;
 			int result2 = p.AddDinosaur("second", Sex::Male, Era::Triassic, "species", Category::Carnivorous);
-			int i = 0;
+			unsigned i = 0;
 			while (i < p.GetNumberOfCages())
 			{
-				for (int j = 0; j < p.GetCages()[i].GetNumberOfDinosaurs(); j++)
+				for (unsigned j = 0; j < p.GetCages()[i].GetNumberOfDinosaurs(); j++)
 				{
 					if (p.GetCages()[i].GetDinosaurs()[j] == Dinosaur("second", Sex::Male, Era::Triassic, "species", Category::Carnivorous))
 					{
@@ -781,9 +781,9 @@ TEST_CASE("Testing DinosaurPark class")
 			Dinosaur first("name", Sex::Male, Era::Triassic, "species", Category::Carnivorous);
 			int result = p.AddDinosaur(first);
 			bool isInSomeCage = false;
-			for (int i = 0; i < p.GetNumberOfCages(); i++)
+			for (unsigned i = 0; i < p.GetNumberOfCages(); i++)
 			{
-				for (int j = 0; j < p.GetCages()[i].GetNumberOfDinosaurs(); j++)
+				for (unsigned j = 0; j < p.GetCages()[i].GetNumberOfDinosaurs(); j++)
 				{
 					if (p.GetCages()[i].GetDinosaurs()[j] == Dinosaur("name", Sex::Male, Era::Triassic, "species", Category::Carnivorous))
 					{
@@ -805,10 +805,10 @@ TEST_CASE("Testing DinosaurPark class")
 			bool isInSomeCage = false;
 			Dinosaur second("second", Sex::Male, Era::Triassic, "species", Category::Carnivorous);
 			int result2 = p.AddDinosaur(second);
-			int i = 0;
+			unsigned i = 0;
 			while (i < p.GetNumberOfCages())
 			{
-				for (int j = 0; j < p.GetCages()[i].GetNumberOfDinosaurs(); j++)
+				for (unsigned j = 0; j < p.GetCages()[i].GetNumberOfDinosaurs(); j++)
 				{
 					if (p.GetCages()[i].GetDinosaurs()[j] == Dinosaur("second", Sex::Male, Era::Triassic, "species", Category::Carnivorous))
 					{
