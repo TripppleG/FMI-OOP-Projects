@@ -140,7 +140,8 @@ short Cage::AddDinosaur(const Dinosaur& dinosaur)
 	}
 	if (IsDinosaurEligible(dinosaur))
 	{
-		dinosaurs[numberOfDinosaurs++] = dinosaur;
+		dinosaurs[numberOfDinosaurs] = dinosaur;
+		numberOfDinosaurs++;
 		return 1;
 	}
 	return 0;
@@ -317,6 +318,11 @@ std::istream& operator>>(std::istream& is, Cage& cage)
 	is.ignore(110, '\n');
 	delete[] temp;
 	return is;
+}
+
+const Dinosaur* Cage::GetDinosaurs() const
+{
+	return dinosaurs;
 }
 
 const Size Cage::GetSize() const

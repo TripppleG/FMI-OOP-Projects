@@ -1,6 +1,6 @@
 #include "JurassicParkUI.h"
 
-const char* JurrasicPark::EnterName() const
+const char* JurrasicParkUI::EnterName() const
 {
 	bool isCorrect = false;
 	char* name = new char[30];
@@ -23,7 +23,7 @@ const char* JurrasicPark::EnterName() const
 	return name;
 }
 
-const Sex JurrasicPark::EnterSex() const
+const Sex JurrasicParkUI::EnterSex() const
 {
 	Sex sex;
 	int choice;
@@ -41,7 +41,7 @@ const Sex JurrasicPark::EnterSex() const
 	return sex;
 }
 
-const Era JurrasicPark::EnterEra() const
+const Era JurrasicParkUI::EnterEra() const
 {
 	Era era;
 	int choice;
@@ -59,7 +59,7 @@ const Era JurrasicPark::EnterEra() const
 	return era;
 }
 
-const char* JurrasicPark::EnterSpecies() const
+const char* JurrasicParkUI::EnterSpecies() const
 {
 	bool isCorrect = false;
 	char* species = new char[30];
@@ -82,7 +82,7 @@ const char* JurrasicPark::EnterSpecies() const
 	return species;
 }
 
-const Category JurrasicPark::EnterCategory() const
+const Category JurrasicParkUI::EnterCategory() const
 {
 	Category category;
 	int choice;
@@ -99,7 +99,7 @@ const Category JurrasicPark::EnterCategory() const
 	return category;
 }
 
-const Climate JurrasicPark::CategoryToClimate(const Category category)
+const Climate JurrasicParkUI::CategoryToClimate(const Category category) const
 {
 	if (category == Category::Aquatic)
 	{
@@ -115,7 +115,7 @@ const Climate JurrasicPark::CategoryToClimate(const Category category)
 	}
 }
 
-const Size JurrasicPark::EnterSize() const
+const Size JurrasicParkUI::EnterSize() const
 {
 	Size size;
 	int choice;
@@ -132,7 +132,7 @@ const Size JurrasicPark::EnterSize() const
 	return size;
 }
 
-const Climate JurrasicPark::EnterClimate() const
+const Climate JurrasicParkUI::EnterClimate() const
 {
 	Climate climate;
 	int choice;
@@ -150,7 +150,7 @@ const Climate JurrasicPark::EnterClimate() const
 	return climate;
 }
 
-void JurrasicPark::LoadFromFile(const char* filename)
+void JurrasicParkUI::LoadFromFile(const char* filename)
 {
 	std::ifstream myFile(filename, std::ios::in);
 	if (!myFile)
@@ -165,14 +165,16 @@ void JurrasicPark::LoadFromFile(const char* filename)
 	std::cout << "File loaded successfully!" << std::endl;
 }
 
-void JurrasicPark::SaveToFile(const char* filename)
+void JurrasicParkUI::SaveToFile(const char* filename) const
 {
 	std::ofstream myFile(filename, std::ios::out | std::ios::trunc); // File will always open, because if it doesn't exist it will create a new one
 	myFile << park;
 	std::cout << "Changes saved successfully";
 }
 
-JurrasicPark::JurrasicPark()
+JurrasicParkUI::JurrasicParkUI() {}
+
+void JurrasicParkUI::Run()
 {
 	try
 	{

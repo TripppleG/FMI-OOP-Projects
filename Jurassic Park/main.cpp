@@ -1,10 +1,8 @@
-#include "JurassicParkUI.h"
-#include <fstream>
-#include <iostream>
-#include <iomanip>
-
-int main()
-{
-	JurrasicPark d;
-	return 0;
-}	
+//#include "JurassicParkUI.h"
+//
+//int main()
+//{
+//	JurrasicParkUI d;
+//	d.Run();
+//	return 0;
+//}	

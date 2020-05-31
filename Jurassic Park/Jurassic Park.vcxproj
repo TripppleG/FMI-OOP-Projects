@@ -144,11 +144,13 @@
     <ClCompile Include="FoodStorage.cpp" />
     <ClCompile Include="JurassicParkUI.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="UnitTests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cage.h" />
     <ClInclude Include="Dinosaur.h" />
     <ClInclude Include="DinosaurPark.h" />
+    <ClInclude Include="doctest.h" />
     <ClInclude Include="Enums.h" />
     <ClInclude Include="FoodStorage.h" />
     <ClInclude Include="JurassicParkUI.h" />

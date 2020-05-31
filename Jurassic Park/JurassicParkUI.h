@@ -2,9 +2,9 @@
 #include "DinosaurPark.h"
 #include <fstream>
 
-const char FILE_NAME[] = "ParkInfoTest.txt";
+const char FILE_NAME[] = "ParkInfo.txt";
 
-class JurrasicPark
+class JurrasicParkUI
 {
 	DinosaurPark park;
 
@@ -14,12 +14,13 @@ class JurrasicPark
 	const char* EnterSpecies()const;
 	const Category EnterCategory()const;
 
-	const Climate CategoryToClimate(const Category category);
+	const Climate CategoryToClimate(const Category category)const;
 	const Size EnterSize()const;
 	const Climate EnterClimate()const;
 
 	void LoadFromFile(const char* filename);
-	void SaveToFile(const char* filename);
+	void SaveToFile(const char* filename)const;
 public:
-	JurrasicPark();
+	JurrasicParkUI();
+	void Run();
 };

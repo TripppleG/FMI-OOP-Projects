@@ -37,6 +37,7 @@ public:
 	bool RemoveDinosaur(const char* name, const Sex sex, const Era era, const char* species, const Category category);
 	bool RemoveDinosaur(const Dinosaur& dinosaur);
 
+	const Dinosaur* GetDinosaurs()const;
 	const Size GetSize()const;
 	const Climate GetClimate()const;
 	const Era GetEraOfDinosaurs()const;

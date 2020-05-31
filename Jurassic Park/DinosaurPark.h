@@ -34,6 +34,7 @@ public:
 	void RefillStorage();
 	void FeedTheDinosaurs();
 
+	const Cage* GetCages()const;
 	const unsigned GetNumberOfCages()const;
 	const unsigned GetMaxNumberOfCages()const;
 	const unsigned GetStaffCount()const;

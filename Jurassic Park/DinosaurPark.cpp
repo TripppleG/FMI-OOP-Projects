@@ -37,7 +37,7 @@ DinosaurPark::DinosaurPark()
 	numberOfCages = 3;
 	maxNumberOfCages = 4;
 	staffCount = numberOfCages;
-	cages = new Cage[numberOfCages];
+	cages = new Cage[maxNumberOfCages];
 	cages[0] = Cage(Size::Medium, Climate::Aerial);
 	cages[1] = Cage(Size::Medium, Climate::Aqueous);
 	cages[2] = Cage(Size::Large, Climate::Terrestrial);
@@ -203,6 +203,11 @@ void DinosaurPark::RefillStorage()
 void DinosaurPark::FeedTheDinosaurs()
 {
 	foodAvailable -= foodRequired;
+}
+
+const Cage* DinosaurPark::GetCages() const
+{
+	return cages;
 }
 
 const unsigned DinosaurPark::GetNumberOfCages() const

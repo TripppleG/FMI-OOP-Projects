@@ -22,6 +22,13 @@ FoodStorage& FoodStorage::operator-=(const FoodStorage& foodStorage)
 	return *this;
 }
 
+FoodStorage& operator-(const FoodStorage& f1, const FoodStorage& f2)
+{
+	FoodStorage result(f1);
+	result -= f2;
+	return result;
+}
+
 bool operator<(const FoodStorage& f1, const FoodStorage& f2)
 {
 	if (f1.fish < f2.fish || f1.grass < f2.grass || f1.meat < f2.meat)
@@ -29,13 +36,6 @@ bool operator<(const FoodStorage& f1, const FoodStorage& f2)
 		return true;
 	}
 	return false;
-}
-
-FoodStorage& operator-(const FoodStorage& f1, const FoodStorage& f2)
-{
-	FoodStorage result(f1);
-	result -= f2;
-	return result;
 }
 
 std::ostream& operator<<(std::ostream& os, const FoodStorage& foodStorage)

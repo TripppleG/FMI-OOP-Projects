@@ -1,21 +1,54 @@
-Cage 1:
-	Size: Medium | Climate: Aerial      | Era: Jurassic
-	Dinosaurs in cage: 1
-	Name                          | Sex    | Era        | Species                 | Category   | Food
-	Gesho                         | Female | Jurassic   | Posho                   | Flying     | Meat
+Staff count: 10
+Number of cages: 10
+Park capacity for cages: 16
+Food required to feed the dinosaurs:
+Fish: 0
+Grass: 0
+Meat: 0
 
+Food available:
+Fish: 10
+Grass: 10
+Meat: 10
+
+-----------------------------------------------------------------------------------------------------------
+Cage 1:
+	Size: Large  | Climate: Terrestrial | Era: NULL
+	Empty cage
 -----------------------------------------------------------------------------------------------------------
 Cage 2:
-	Size: Medium | Climate: Aqueous     | Era: Triassic
-	Dinosaurs in cage: 1
-	Name                          | Sex    | Era        | Species                 | Category   | Food
-	Gosho                         | Male   | Triassic   | Pesho                   | Aquatic    | Fish
-
+	Size: Large  | Climate: Terrestrial | Era: NULL
+	Empty cage
 -----------------------------------------------------------------------------------------------------------
 Cage 3:
-	Size: Large  | Climate: Terrestrial | Era: Cretaceous
-	Dinosaurs in cage: 1
-	Name                          | Sex    | Era        | Species                 | Category   | Food
-	Pesho                         | Male   | Cretaceous | Gosho                   | Carnivorous| Meat
-
+	Size: Large  | Climate: Terrestrial | Era: NULL
+	Empty cage
+-----------------------------------------------------------------------------------------------------------
+Cage 4:
+	Size: Large  | Climate: Terrestrial | Era: NULL
+	Empty cage
+-----------------------------------------------------------------------------------------------------------
+Cage 5:
+	Size: Large  | Climate: Terrestrial | Era: NULL
+	Empty cage
+-----------------------------------------------------------------------------------------------------------
+Cage 6:
+	Size: Large  | Climate: Terrestrial | Era: NULL
+	Empty cage
+-----------------------------------------------------------------------------------------------------------
+Cage 7:
+	Size: Large  | Climate: Terrestrial | Era: NULL
+	Empty cage
+-----------------------------------------------------------------------------------------------------------
+Cage 8:
+	Size: Large  | Climate: Terrestrial | Era: NULL
+	Empty cage
+-----------------------------------------------------------------------------------------------------------
+Cage 9:
+	Size: Large  | Climate: Terrestrial | Era: NULL
+	Empty cage
+-----------------------------------------------------------------------------------------------------------
+Cage 10:
+	Size: Large  | Climate: Terrestrial | Era: NULL
+	Empty cage
 -----------------------------------------------------------------------------------------------------------
